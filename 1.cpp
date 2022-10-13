@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits.h>
 #include <queue>
 using namespace std;
 
@@ -157,25 +158,35 @@ bool isIdentical(node *root1, node *root2)
     return false;
 }
 
+int miniumum(node *root)
+{
+    if (root == NULL)
+        return INT_MAX;
+    int left = miniumum(root->left);
+    int right = miniumum(root->right);
+    return min(root->data, min(left, right));
+}
+
 int main()
 {
     node *root = NULL;
     root = buildTree(root);
-    node *root2 = NULL;
-    root2 = buildTree(root2);
-    // 1 3 7 -1 -1 11 -1 -1 5 17 -1 -1 -1
-    BFS(root);
-    cout << endl;
-    levelOderTraversak(root);
-    inorder(root);
-    cout << endl;
-    preorder(root);
-    cout << endl;
-    postorder(root);
-    cout << endl;
-    cout << "Height of the tree is: " << height(root) << endl;
-    cout << "Diameter of the tree is: " << diameter(root) << endl;
-    cout << "Is the tree balanced: " << isBalanced(root) << endl;
-    cout << "Is the tree identical: " << isIdentical(root, root2) << endl;
+    // node *root2 = NULL;
+    // root2 = buildTree(root2);
+    // // 1 3 7 -1 -1 11 -1 -1 5 17 -1 -1 -1
+    // BFS(root);
+    // cout << endl;
+    // levelOderTraversak(root);
+    // inorder(root);
+    // cout << endl;
+    // preorder(root);
+    // cout << endl;
+    // postorder(root);
+    // cout << endl;
+    // cout << "Height of the tree is: " << height(root) << endl;
+    // cout << "Diameter of the tree is: " << diameter(root) << endl;
+    // cout << "Is the tree balanced: " << isBalanced(root) << endl;
+    // cout << "Is the tree identical: " << isIdentical(root, root2) << endl;
+    cout << "Minimum element in the tree is: " << miniumum(root) << endl;
     return 0;
 }
