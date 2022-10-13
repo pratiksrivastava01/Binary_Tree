@@ -167,6 +167,16 @@ int miniumum(node *root)
     return min(root->data, min(left, right));
 }
 
+int maximumPathSum(node *root)
+{
+    if (root == NULL)
+        return 0;
+    int left = maximumPathSum(root->left);
+    int right = maximumPathSum(root->right);
+    int maxPath = max(left, right);
+    return max(maxPath, left + right + root->data);
+}
+
 int main()
 {
     node *root = NULL;
@@ -187,6 +197,8 @@ int main()
     // cout << "Diameter of the tree is: " << diameter(root) << endl;
     // cout << "Is the tree balanced: " << isBalanced(root) << endl;
     // cout << "Is the tree identical: " << isIdentical(root, root2) << endl;
-    cout << "Minimum element in the tree is: " << miniumum(root) << endl;
+    // cout << "Minimum element in the tree is: " << miniumum(root) << endl;
+    // cout << "Maximum element in the tree is: " << maximum(root) << endl;
+    cout << "Maximum path sum in the tree is: " << maximumPathSum(root) << endl;
     return 0;
 }
