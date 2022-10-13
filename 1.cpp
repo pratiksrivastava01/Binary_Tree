@@ -19,8 +19,8 @@ public:
 
 node *buildTree(node *root)
 {
-    cout << "Enter data: "
-         << "\n";
+    // cout << "Enter data: "
+    //      << "\n";
     int data;
     cin >> data;
     root = new node(data);
@@ -30,9 +30,9 @@ node *buildTree(node *root)
         return NULL;
     }
 
-    cout << "Enter left child of " << data << "\n";
+    // cout << "Enter left child of " << data << "\n";
     root->left = buildTree(root->left);
-    cout << "Enter right child of " << data << "\n";
+    // cout << "Enter right child of " << data << "\n";
     root->right = buildTree(root->right);
     return root;
 }
@@ -137,6 +137,17 @@ int diameter(node *root)
     return max(op1, max(op2, op3));
 }
 
+bool isBalanced(node *root)
+{
+    if (root == NULL)
+        return true;
+    int h1 = height(root->left);
+    int h2 = height(root->right);
+    if (abs(h1 - h2) <= 1 && isBalanced(root->left) && isBalanced(root->right))
+        return true;
+    return false;
+}
+
 int main()
 {
     node *root = NULL;
@@ -146,7 +157,6 @@ int main()
     BFS(root);
     cout << endl;
     levelOderTraversak(root);
-    cout << endl;
     inorder(root);
     cout << endl;
     preorder(root);
@@ -155,5 +165,6 @@ int main()
     cout << endl;
     cout << "Height of the tree is: " << height(root) << endl;
     cout << "Diameter of the tree is: " << diameter(root) << endl;
+    cout << "Is the tree balanced: " << isBalanced(root) << endl;
     return 0;
 }
