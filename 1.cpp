@@ -148,11 +148,21 @@ bool isBalanced(node *root)
     return false;
 }
 
+bool isIdentical(node *root1, node *root2)
+{
+    if (root1 == NULL && root2 == NULL)
+        return root1 == root2;
+    if (root1->data == root2->data && isIdentical(root1->left, root2->left) && isIdentical(root1->right, root2->right))
+        return true;
+    return false;
+}
+
 int main()
 {
     node *root = NULL;
     root = buildTree(root);
-
+    node *root2 = NULL;
+    root2 = buildTree(root2);
     // 1 3 7 -1 -1 11 -1 -1 5 17 -1 -1 -1
     BFS(root);
     cout << endl;
@@ -166,5 +176,6 @@ int main()
     cout << "Height of the tree is: " << height(root) << endl;
     cout << "Diameter of the tree is: " << diameter(root) << endl;
     cout << "Is the tree balanced: " << isBalanced(root) << endl;
+    cout << "Is the tree identical: " << isIdentical(root, root2) << endl;
     return 0;
 }
