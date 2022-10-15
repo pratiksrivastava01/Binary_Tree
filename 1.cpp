@@ -1,6 +1,8 @@
 #include <iostream>
 #include <limits.h>
 #include <queue>
+#include <stack>
+#include <map>
 using namespace std;
 
 class node
@@ -177,6 +179,161 @@ int maximumPathSum(node *root)
     return max(maxPath, left + right + root->data);
 }
 
+void zigzag(node *root)
+{
+    if (root == NULL)
+        return;
+    stack<node *> s1;
+    stack<node *> s2;
+    s1.push(root);
+    while (!s1.empty() || !s2.empty())
+    {
+        while (!s1.empty())
+        {
+            node *temp = s1.top();
+            s1.pop();
+            cout << temp->data << " ";
+            if (temp->left)
+                s2.push(temp->left);
+            if (temp->right)
+                s2.push(temp->right);
+        }
+        while (!s2.empty())
+        {
+            node *temp = s2.top();
+            s2.pop();
+            cout << temp->data << " ";
+            if (temp->right)
+                s1.push(temp->right);
+            if (temp->left)
+                s1.push(temp->left);
+        }
+    }
+}
+
+void zigZagUsignFlag(node *root)
+{
+    if (root == NULL)
+        return;
+    stack<node *> s1;
+    stack<node *> s2;
+    s1.push(root);
+    bool flag = true;
+    while (!s1.empty() || !s2.empty())
+    {
+        while (!s1.empty())
+        {
+            node *temp = s1.top();
+            s1.pop();
+            cout << temp->data << " ";
+            if (flag)
+            {
+                if (temp->left)
+                    s2.push(temp->left);
+                if (temp->right)
+                    s2.push(temp->right);
+            }
+            else
+            {
+                if (temp->right)
+                    s2.push(temp->right);
+                if (temp->left)
+                    s2.push(temp->left);
+            }
+        }
+        flag = !flag;
+        while (!s2.empty())
+        {
+            node *temp = s2.top();
+            s2.pop();
+            cout << temp->data << " ";
+            if (flag)
+            {
+                if (temp->left)
+                    s1.push(temp->left);
+                if (temp->right)
+                    s1.push(temp->right);
+            }
+            else
+            {
+                if (temp->right)
+                    s1.push(temp->right);
+                if (temp->left)
+                    s1.push(temp->left);
+            }
+        }
+        flag = !flag;
+    }
+}
+
+void zigZagUsingQueue(node *root)
+{
+    if (root == NULL)
+        return;
+    queue<node *> q;
+    q.push(root);
+    bool flag = true;
+    while (!q.empty())
+    {
+        int size = q.size();
+        for (int i = 0; i < size; i++)
+        {
+            node *temp = q.front();
+            q.pop();
+            cout << temp->data << " ";
+            if (flag)
+            {
+                if (temp->left)
+                    q.push(temp->left);
+                if (temp->right)
+                    q.push(temp->right);
+            }
+            else
+            {
+                if (temp->right)
+                    q.push(temp->right);
+                if (temp->left)
+                    q.push(temp->left);
+            }
+        }
+        flag = !flag;
+    }
+}
+
+void verticalOrderTraversal(node *root)
+{
+    if (root == NULL)
+        return;
+    map<int, vector<int>> m;
+    queue<pair<node *, int>> q;
+    q.push({root, 0});
+    while (!q.empty())
+    {
+        pair<node *, int> temp = q.front();
+        q.pop();
+        m[temp.second].push_back(temp.first->data);
+        if (temp.first->left)
+            q.push({temp.first->left, temp.second - 1});
+        if (temp.first->right)
+            q.push({temp.first->right, temp.second + 1});
+    }
+    for (auto it : m)
+    {
+        for (auto it1 : it.second)
+            cout << it1 << " ";
+        cout << endl;
+    }
+}
+
+void verticalTraversalUsingRecursion(node *root, int d, map<int, vector<int>> &m)
+{
+    if (root == NULL)
+        return;
+    m[d].push_back(root->data);
+    verticalTraversalUsingRecursion(root->left, d - 1, m);
+    verticalTraversalUsingRecursion(root->right, d + 1, m);
+}
+
 int main()
 {
     node *root = NULL;
@@ -199,6 +356,22 @@ int main()
     // cout << "Is the tree identical: " << isIdentical(root, root2) << endl;
     // cout << "Minimum element in the tree is: " << miniumum(root) << endl;
     // cout << "Maximum element in the tree is: " << maximum(root) << endl;
-    cout << "Maximum path sum in the tree is: " << maximumPathSum(root) << endl;
+    // cout << "Maximum path sum in the tree is: " << maximumPathSum(root) << endl;
+    // zigzag(root);
+    // cout << endl;
+    // zigZagUsignFlag(root);
+    // cout << endl;
+    // zigZagUsingQueue(root);
+    // cout << endl;
+    verticalOrderTraversal(root);
+    cout << endl;
+    map<int, vector<int>> m;
+    verticalTraversalUsingRecursion(root, 0, m);
+    for (auto it : m)
+    {
+        for (auto it1 : it.second)
+            cout << it1 << " ";
+        cout << endl;
+    }
     return 0;
 }
