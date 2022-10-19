@@ -325,14 +325,14 @@ void verticalOrderTraversal(node *root)
     }
 }
 
-void verticalTraversalUsingRecursion(node *root, int d, map<int, vector<int>> &m)
-{
-    if (root == NULL)
-        return;
-    m[d].push_back(root->data);
-    verticalTraversalUsingRecursion(root->left, d - 1, m);
-    verticalTraversalUsingRecursion(root->right, d + 1, m);
-}
+// void verticalTraversalUsingRecursion(node *root, int d, map<int, vector<int>> &m)
+// {
+//     if (root == NULL)
+//         return;
+//     m[d].push_back(root->data);
+//     verticalTraversalUsingRecursion(root->left, d - 1, m);
+//     verticalTraversalUsingRecursion(root->right, d + 1, m);
+// }
 
 int main()
 {
