@@ -325,14 +325,39 @@ void verticalOrderTraversal(node *root)
     }
 }
 
-// void verticalTraversalUsingRecursion(node *root, int d, map<int, vector<int>> &m)
-// {
-//     if (root == NULL)
-//         return;
-//     m[d].push_back(root->data);
-//     verticalTraversalUsingRecursion(root->left, d - 1, m);
-//     verticalTraversalUsingRecursion(root->right, d + 1, m);
-// }
+void verticalOrderTraversalUsingMap(node *root)
+{
+    if (root == NULL)
+        return;
+    map<int, vector<int>> m;
+    queue<pair<node *, int>> q;
+    q.push({root, 0});
+    while (!q.empty())
+    {
+        pair<node *, int> temp = q.front();
+        q.pop();
+        m[temp.second].push_back(temp.first->data);
+        if (temp.first->left)
+            q.push({temp.first->left, temp.second - 1});
+        if (temp.first->right)
+            q.push({temp.first->right, temp.second + 1});
+    }
+    for (auto it : m)
+    {
+        for (auto it1 : it.second)
+            cout << it1 << " ";
+        cout << endl;
+    }
+}
+
+void verticalTraversalUsingRecursion(node *root, int d, map<int, vector<int>> &m)
+{
+    if (root == NULL)
+        return;
+    m[d].push_back(root->data);
+    verticalTraversalUsingRecursion(root->left, d - 1, m);
+    verticalTraversalUsingRecursion(root->right, d + 1, m);
+}
 
 int main()
 {
@@ -373,5 +398,6 @@ int main()
             cout << it1 << " ";
         cout << endl;
     }
+
     return 0;
 }
