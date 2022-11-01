@@ -401,6 +401,29 @@ void topView(node *root)
         cout << it.second << " ";
 }
 
+void bottomView(node *root)
+{
+    if (root == NULL)
+        return;
+    map<int, int> m;
+    queue<pair<node *, int>> q;
+    q.push({root, 0});
+    while (!q.empty())
+    {
+        auto it = q.front();
+        q.pop();
+        node *temp = it.first;
+        int d = it.second;
+        m[d] = temp->data;
+        if (temp->left)
+            q.push({temp->left, d - 1});
+        if (temp->right)
+            q.push({temp->right, d + 1});
+    }
+    for (auto it : m)
+        cout << it.second << " ";
+}
+
 int main()
 {
     node *root = NULL;
@@ -442,5 +465,7 @@ int main()
     // }
     // cout << endl;
     topView(root);
+    cout << endl;
+    bottomView(root);
     return 0;
 }
