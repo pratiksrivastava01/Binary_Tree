@@ -179,6 +179,15 @@ int maximumPathSum(node *root)
     return max(maxPath, left + right + root->data);
 }
 
+int sumOfLeafNodes(node *root)
+{
+    if (root == NULL)
+        return 0;
+    if (root->left == NULL && root->right == NULL)
+        return root->data;
+    return sumOfLeafNodes(root->left) + sumOfLeafNodes(root->right);
+}
+
 void zigzag(node *root)
 {
     if (root == NULL)
@@ -359,6 +368,39 @@ void verticalTraversalUsingRecursion(node *root, int d, map<int, vector<int>> &m
     verticalTraversalUsingRecursion(root->right, d + 1, m);
 }
 
+void topView(node *root)
+{
+    if (root == NULL)
+        return;
+    map<int, int> m;
+    queue<pair<node *, int>> q;
+    q.push({root, 0});
+    while (!q.empty())
+    {
+        auto it = q.front();
+        q.pop();
+        node *temp = it.first;
+        int d = it.second;
+        if (m.find(d) == m.end())
+            m[d] = temp->data;
+        if (temp->left)
+            q.push({temp->left, d - 1});
+        if (temp->right)
+            q.push({temp->right, d + 1});
+
+        // pair<node *, int> temp = q.front();
+        // q.pop();
+        // if (m.find(temp.second) == m.end())
+        //     m[temp.second] = temp.first->data;
+        // if (temp.first->left)
+        //     q.push({temp.first->left, temp.second - 1});
+        // if (temp.first->right)
+        //     q.push({temp.first->right, temp.second + 1});
+    }
+    for (auto it : m)
+        cout << it.second << " ";
+}
+
 int main()
 {
     node *root = NULL;
@@ -388,16 +430,17 @@ int main()
     // cout << endl;
     // zigZagUsingQueue(root);
     // cout << endl;
-    verticalOrderTraversal(root);
-    cout << endl;
-    map<int, vector<int>> m;
-    verticalTraversalUsingRecursion(root, 0, m);
-    for (auto it : m)
-    {
-        for (auto it1 : it.second)
-            cout << it1 << " ";
-        cout << endl;
-    }
-
+    // verticalOrderTraversal(root);
+    // cout << endl;
+    // map<int, vector<int>> m;
+    // verticalTraversalUsingRecursion(root, 0, m);
+    // for (auto it : m)
+    // {
+    //     for (auto it1 : it.second)
+    //         cout << it1 << " ";
+    //     cout << endl;
+    // }
+    // cout << endl;
+    topView(root);
     return 0;
 }
