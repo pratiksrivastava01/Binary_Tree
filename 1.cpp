@@ -424,6 +424,56 @@ void bottomView(node *root)
         cout << it.second << " ";
 }
 
+void rightSideOfBinaryTree(node *root)
+{
+    if (root == NULL)
+        return;
+    queue<node *> q;
+    q.push(root);
+    while (!q.empty())
+    {
+        int size = q.size();
+        for (int i = 0; i < size; i++)
+        {
+            node *temp = q.front();
+            q.pop();
+            if (i == size - 1)
+                cout << temp->data << " ";
+            if (temp->left)
+                q.push(temp->left);
+            if (temp->right)
+                q.push(temp->right);
+        }
+    }
+}
+
+bool isSymmetric(node *root)
+{
+    if (root == NULL)
+        return true;
+    queue<node *> q;
+    q.push(root->left);
+    q.push(root->right);
+    while (!q.empty())
+    {
+        node *temp1 = q.front();
+        q.pop();
+        node *temp2 = q.front();
+        q.pop();
+        if (temp1 == NULL && temp2 == NULL)
+            continue;
+        if (temp1 == NULL || temp2 == NULL)
+            return false;
+        if (temp1->data != temp2->data)
+            return false;
+        q.push(temp1->left);
+        q.push(temp2->right);
+        q.push(temp1->right);
+        q.push(temp2->left);
+    }
+    return true;
+}
+
 int main()
 {
     node *root = NULL;
@@ -464,8 +514,12 @@ int main()
     //     cout << endl;
     // }
     // cout << endl;
-    topView(root);
+    // topView(root);
+    // cout << endl;
+    // bottomView(root);
+    // cout << endl;
+    rightSideOfBinaryTree(root);
     cout << endl;
-    bottomView(root);
+    cout << isSymmetric(root) << endl;
     return 0;
 }
