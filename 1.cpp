@@ -424,6 +424,7 @@ void bottomView(node *root)
         cout << it.second << " ";
 }
 
+
 void rightSideOfBinaryTree(node *root)
 {
     if (root == NULL)
@@ -447,31 +448,11 @@ void rightSideOfBinaryTree(node *root)
     }
 }
 
-bool isSymmetric(node *root)
+bool isSymetric(node *root1, node *root2)
 {
-    if (root == NULL)
-        return true;
-    queue<node *> q;
-    q.push(root->left);
-    q.push(root->right);
-    while (!q.empty())
-    {
-        node *temp1 = q.front();
-        q.pop();
-        node *temp2 = q.front();
-        q.pop();
-        if (temp1 == NULL && temp2 == NULL)
-            continue;
-        if (temp1 == NULL || temp2 == NULL)
-            return false;
-        if (temp1->data != temp2->data)
-            return false;
-        q.push(temp1->left);
-        q.push(temp2->right);
-        q.push(temp1->right);
-        q.push(temp2->left);
-    }
-    return true;
+    if (root1 == NULL && root2 == NULL)
+        return root1 == root2;
+    return (root1->data == root2->data) && isSymetric(root1->left, root2->right) && isSymetric(root1->right, root2->left);
 }
 
 int main()
@@ -518,8 +499,13 @@ int main()
     // cout << endl;
     // bottomView(root);
     // cout << endl;
-    rightSideOfBinaryTree(root);
-    cout << endl;
-    cout << isSymmetric(root) << endl;
+    // rightSideOfBinaryTree(root);
+    // cout << endl;
+    //1 2 3 -1 -1 4 -1 -1 2 4 -1 -1 3 -1 -1
+    if (isSymetric(root, root))
+        cout << "Tree is balanced";
+    else
+        cout << "Tree is not balanced";
+
     return 0;
 }
