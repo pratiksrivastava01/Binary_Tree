@@ -424,7 +424,6 @@ void bottomView(node *root)
         cout << it.second << " ";
 }
 
-
 void rightSideOfBinaryTree(node *root)
 {
     if (root == NULL)
@@ -453,6 +452,29 @@ bool isSymetric(node *root1, node *root2)
     if (root1 == NULL && root2 == NULL)
         return root1 == root2;
     return (root1->data == root2->data) && isSymetric(root1->left, root2->right) && isSymetric(root1->right, root2->left);
+}
+
+void printRootToNodePath(node *root, int data, vector<int> &v)
+{
+    if (root == NULL)
+        return;
+    if (root->data == data)
+    {
+        v.push_back(root->data);
+        return;
+    }
+    printRootToNodePath(root->left, data, v);
+    if (v.size() > 0)
+    {
+        v.push_back(root->data);
+        return;
+    }
+    printRootToNodePath(root->right, data, v);
+    if (v.size() > 0)
+    {
+        v.push_back(root->data);
+        return;
+    }
 }
 
 int main()
@@ -501,11 +523,16 @@ int main()
     // cout << endl;
     // rightSideOfBinaryTree(root);
     // cout << endl;
-    //1 2 3 -1 -1 4 -1 -1 2 4 -1 -1 3 -1 -1
-    if (isSymetric(root, root))
-        cout << "Tree is balanced";
-    else
-        cout << "Tree is not balanced";
-
+    // 1 2 3 -1 -1 4 -1 -1 2 4 -1 -1 3 -1 -1
+    // if (isSymetric(root, root))
+    //     cout << "Tree is balanced";
+    // else
+    //     cout << "Tree is not balanced";
+    // cout << endl;
+    vector<int> v;
+    printRootToNodePath(root, 4, v);
+    for (auto it : v)
+        cout << it << " ";
+    cout << endl;
     return 0;
 }
